@@ -1,0 +1,55 @@
+!! URxvt Appearance
+URxvt.font: xft:Source Code Pro:style=Regular:size=10,xft:Font Awesome 6 Free:style=Regular:size=10
+Rxvt.boldFont: xft:Source Code Pro:style=Bold:size=10
+URxvt.italicFont: xft:Source Code Pro:style=Italic:size=10
+URxvt.boldItalicfont: xft:Source Code Pro:style=Bold Italic:size=10
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 24
+URxvt.iso14755: false
+
+! special
+*.foreground:   #fbf1c7
+*.background:   #282828
+*.cursorColor:  #fbf1c7
+
+! black
+*.color0:       #1d2021
+*.color8:       #928374
+
+! red
+*.color1:       #cc241d
+*.color9:       #fb4934
+
+! green
+*.color2:       #98971a
+*.color10:      #b8bb26
+
+! yellow
+*.color3:       #d79921
+*.color11:      #fabd2f
+
+! blue
+*.color4:       #458588
+*.color12:      #83a598
+
+! magenta
+*.color5:       #b16286
+*.color13:      #d3869b
+
+! cyan
+*.color6:       #689d6a
+*.color14:      #8ec07c
+
+! white
+*.color7:       #a89984
+*.color15:      #ebdbb2
+

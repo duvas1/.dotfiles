@@ -1,0 +1,32 @@
+Config { font = "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+       , additionalFonts = [ "xft:Font Awesome 6 Free:size=9:bold:antialias=true"
+                           , "xft:Font Awesome 6 Brands:size=9:bold:antialias=true"
+                           ]
+       , borderColor = "black"
+       , border = TopB
+       , bgColor = "#282828"
+       , fgColor = "white"
+       , alpha = 255
+       , position = Top
+       , textOffset = -1
+       , iconOffset = -1
+       , lowerOnStart = True
+       , pickBroadest = False
+       , persistent = False
+       , hideOnStart = False
+       , iconRoot = "."
+       , allDesktops = True
+       , overrideRedirect = True
+       , commands = [ Run Weather "SBPA" ["-t","<fn=1></fn>: <tempC>°C", "-L","18","-H","25"] 3600
+                    , Run StdinReader
+                    , Run Cpu ["-t","<fn=1></fn>: <total>%","-L","3","-H","50"] 10
+                    , Run Memory ["-t","<fn=1></fn>: <usedratio>%"] 10
+                    , Run Com "uname" ["-r"] "" 36000
+                    , Run Date "<fc=#9c163a><fn=1></fn> %H:%M</fc> | <fc=#913380><fn=1></fn> %b %d %Y</fc>" "date" 10
+                    , Run Volume "default" "Master" ["-t","<fn=1></fn>: <volume>%"] 10
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }\
+                    \{ <fc=#FA8072><fn=2></fn> %uname%</fc> | <fc=#e3563d>%cpu%</fc> | <fc=#FF3131>%memory%</fc> | <fc=#D22B2B>%SBPA%</fc> | <fc=#b53131>%default:Master%</fc> | %date% "
+       }
