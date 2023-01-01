@@ -115,7 +115,7 @@ local cpu = lain.widget.cpu {
 --RAM Widget
 local mymem = lain.widget.mem {
 	settings = function ()
-		widget:set_markup(" RAM:" .. mem_now.perc.. "% | ")
+		widget:set_markup(" RAM:" .. mem_now.perc.. "% | ")
 	end
 }
 
@@ -302,7 +302,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,		  }, "d", function () awful.spawn("dmenu_run -b") end,
+    awful.key({ modkey,		  }, "d", function () awful.spawn("dmenu_run -b -nf '#D4D4D4' -nb '#222222' -sb '#B06861' -sf '#EEEEEE'") end,
               {description = "run dmenu", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
