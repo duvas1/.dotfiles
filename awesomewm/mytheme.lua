@@ -14,7 +14,7 @@ local theme = {}
 theme.font          = "DejaVu Sans Mono 9", "Font Awesome 6 Free 9"
 
 theme.bg_normal     = "#222222"
-theme.bg_focus      = "#b06861"
+theme.bg_focus      = "#804242"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
@@ -27,7 +27,7 @@ theme.fg_minimize   = "#ffffff"
 theme.useless_gap   = dpi(7)
 theme.border_width  = dpi(2)
 theme.border_normal = "#000000"
-theme.border_focus  = "#c76e65"
+theme.border_focus  = "#dba651"
 theme.border_marked = "#91231c"
 
 -- There are other variable sets
