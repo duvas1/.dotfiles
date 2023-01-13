@@ -103,6 +103,8 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
+naughty.config.defaults['icon_size'] = 100
+
 -- Lain widgets
 
 -- CPU Widget
