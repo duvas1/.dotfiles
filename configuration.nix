@@ -42,39 +42,44 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable the X11 windowing system.
   services.xserver = {
 	enable = true;
 	layout = "br";
-        windowManager.awesome = {
-            enable = true;
-            luaModules = with pkgs.luaPackages; [
-		luarocks
-		luadbi-mysql
-            ];
-        };
+	windowManager.awesome = {
+		enable = true;
+		luaModules = with pkgs.luaPackages; [
+			luarocks
+			luadbi-mysql
+		];
+	};
 	displayManager.startx.enable = true;
 	videoDrivers = [ "intel" ];
   };
 
   nixpkgs.config.allowUnfree = true;
   hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-       vaapiIntel
-       vaapiVdpau
-       libvdpau-va-gl
-    ];
+  	enable = true;
+	driSupport = true;
+	extraPackages = with pkgs; [
+		vaapiIntel
+		vaapiVdpau
+		libvdpau-va-gl
+	];
   };
-  
+
   fonts.fonts = with pkgs; [
-    noto-fonts-emoji
-    font-awesome
-    dejavu_fonts
-    source-code-pro
+	noto-fonts-emoji
+	font-awesome
+	dejavu_fonts
+	source-code-pro
   ];
+
+
+
+  
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -94,18 +99,14 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.duvas = {
+   users.users.duvas = {
      isNormalUser = true;
-     extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
-       htop
        btop
+       glxinfo
      ];
    };
-
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -113,13 +114,20 @@
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
      google-chrome
+     spotify
      rxvt-unicode
      git
      feh
      dmenu
      vscode-fhs
      pavucontrol
-  ];
+     (retroarch.override {
+	cores = [
+	  libretro.mgba
+	];
+     })
+     libretro.mgba
+   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -151,7 +159,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 
