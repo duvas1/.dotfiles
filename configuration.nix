@@ -67,6 +67,7 @@
 		vaapiIntel
 		vaapiVdpau
 		libvdpau-va-gl
+		mesa.drivers
 	];
   };
 
@@ -119,14 +120,12 @@
      git
      feh
      dmenu
-     vscode-fhs
      pavucontrol
      (retroarch.override {
 	cores = [
 	  libretro.mgba
 	];
      })
-     libretro.mgba
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
