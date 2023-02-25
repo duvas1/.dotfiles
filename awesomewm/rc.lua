@@ -241,7 +241,7 @@ awful.screen.connect_for_each_screen(function(s)
 	    volume,
             mytextclock,
 	    wibox.widget.systray(),
-            s.mylayoutbox,
+           -- s.mylayoutbox,
         },
     }
 end)

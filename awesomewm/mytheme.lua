@@ -13,21 +13,21 @@ local theme = {}
 
 theme.font          = "DejaVu Sans Mono 9", "Font Awesome 6 Free 9"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#7aa2f7"
+theme.bg_normal     = "#363a4f"
+theme.bg_focus      = "#ee99a0"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#ffffff"
-theme.fg_focus      = "#ffffff"
+theme.fg_normal     = "#cad3f5"
+theme.fg_focus      = "#363a4f"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = dpi(7)
-theme.border_width  = dpi(2)
+theme.border_width  = dpi(1)
 theme.border_normal = "#000000"
-theme.border_focus  = "#4abaaf"
+theme.border_focus  = "#eed49f"
 theme.border_marked = "#91231c"
 
 -- There are other variable sets
