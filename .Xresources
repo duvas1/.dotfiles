@@ -36,10 +36,10 @@ URxvt.color7: #B8C0E0
 URxvt.color15: #A5ADCB
 
 !! URxvt Appearance
-URxvt.font: xft:Source Code Pro:style=Regular:size=12,xft:Font Awesome 6 Free:style=Regular:size=12
-Rxvt.boldFont: xft:Source Code Pro:style=Bold:size=12
-URxvt.italicFont: xft:Source Code Pro:style=Italic:size=12
-URxvt.boldItalicfont: xft:Source Code Pro:style=Bold Italic:size=12
+URxvt.font: xft:JetBrainsMono Nerd Font Mono:style=Regular:size=12:antialias=true:autohint=true
+Rxvt.boldFont: xft:JetBrainsMono Nerd Font Mono:style=Bold:size=12:antialias=true:autohint=true
+URxvt.italicFont: xft:JetBrainsMono Nerd Font Mono:style=Italic:size=12:antialias=true:autohint=true
+URxvt.boldItalicfont: xft:JetBrainsMono Nerd Font Mono:style=Bold Italic:size=12:antialias=true:autohint=true
 URxvt.letterSpace: 0
 URxvt.lineSpace: 0
 URxvt.internalBorder: 24
