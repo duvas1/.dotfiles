@@ -38,7 +38,7 @@ def autostart():
     subprocess.Popen([home + '/.config/qtile/autostart.sh'])
 
 mod = "mod4"
-terminal = "urxvt"
+terminal = "urxvtc"
 dmenu = "dmenu_run -b -nf '#BBBBBB' -nb '#222222' -sb '#ed8796' -sf '#363a4f' -fn 'SourceCodePro-11'"
 
 keys = [
@@ -113,7 +113,7 @@ for i in groups:
 layouts = [
     layout.Columns(
         # border_focus_stack=["#d75f5f", "#8f3d3d"],
-        border_focus="#8bd5ca",
+        border_focus="#ed8796",
         border_normal="#6e738d",
         border_on_single = True,
         border_width=1, 
@@ -134,7 +134,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
+    font="JetBrainsMono Nerd Font",
     fontsize=12,
     padding=3,
 )
@@ -151,19 +151,19 @@ screens = [
                     hide_unused = False,
                     inactive = '#8087a2',
                     block_highlight_text_color = '#363a4f',
-                    this_current_screen_border = '#8bd5ca',
-                    this_screen_border = '#8bd5ca',
+                    this_current_screen_border = '#f38ba8',
+                    this_screen_border = '#f38ba8',
                     active = '#c6d0f5',
-                    font = 'DejaVu Sans Mono',
+                    font = 'JetBrains Mono',
                     fontsize = 14,
                     margin = 3,
                     ),
                 widget.Prompt(),
                 widget.TextBox(),
                 widget.WindowName(
-                    font = 'DejaVu Sans Mono',
+                    font = 'JetBrains Mono',
                     fontsize = '14',
-                    background = '#ee99a0',
+                    background = '#ed8796',
                     foreground = '#363a4f'
                     ),
                 # widget.Chord(
@@ -176,39 +176,40 @@ screens = [
                 # widget.StatusNotifier(),
                 widget.TextBox(),
                 widget.Memory(
-                    measure_mem = 'G',
-                    format = " {MemUsed: .0f}{mm}/{MemTotal:.0f}{mm} ",
-                    background = '#f5a97f',
-                    foreground = '#363a4f',
-                    font = 'DejaVuSansMono Nerd Font',
+                    measure_mem = 'M',
+                    format = "  {MemUsed: .0f}{mm}/{MemTotal:.0f}{mm} ",
+                    background = '#939ab7',
+                    foreground = '#ffffff',
+                    font = 'JetBrainsMono Nerd Font',
                     fontsize = 14,
                     ),
                 widget.TextBox(),
                 widget.CPU(
-                    format="\uf2db {load_percent}%",
+                    format="  {load_percent}%",
                     padding = 10,
-                    background = '#eed49f',
-                    foreground = '#363a4f',
-                    font = 'DejaVuSansMono Nerd Font',
+                    background = '#939ab7',
+                    foreground = '#ffffff',
+                    font = 'JetBrainsMono Nerd Font',
                     fontsize = 14,
                     ),
                 widget.TextBox(),
                 widget.Systray(),
                 widget.Clock(
-                    format="  %H:%M ",
-                    background = '#8aadf4',
-                    foreground = '#363a4f',
-                    font = 'DejaVuSansMono Nerd Font',
+                    format="   %H:%M ",
+                    background = '#939ab7',
+                    foreground = '#ffffff',
+                    font = 'JetBrainsMono Nerd Font',
                     fontsize = 14,
                     ),
                 widget.TextBox(),
                 widget.Clock(
-                    format="  %d/%m/%Y ",
-                    background = '#c6a0f6',
-                    foreground = '#363a4f',
-                    font = 'DejaVuSansMono Nerd Font',
+                    format="   %d/%m/%Y ",
+                    background = '#939ab7',
+                    foreground = '#ffffff',
+                    font = 'JetBrainsMono Nerd Font',
                     fontsize = 14,
                     ),
+                widget.TextBox(),
             ],
             24,
             background = "#363a4f",
