@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
 
@@ -11,16 +11,12 @@
     ];
 
   # Use the GRUB 2 boot loader.
-  boot.loader.grub = {
-	enable = true;
-  	version = 2;
-	device = "/dev/sda";
-  };
+  boot.loader.grub.enable = true;
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
   # Define on which hard drive you want to install Grub.
-  # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -36,58 +32,21 @@
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+   console = {
+     font = "Lat2-Terminus16";
+     # keyMap = "us";
+     useXkbConfig = true; # use xkbOptions in tty.
+   };
 
   # Enable the X11 windowing system.
-  services.xserver = {
-	enable = true;
-	layout = "br";
-	windowManager.awesome = {
-		enable = true;
-		luaModules = with pkgs.luaPackages; [
-			luarocks
-			luadbi-mysql
-		];
-	};
-	displayManager.startx.enable = true;
-	videoDrivers = [ "intel" ];
-  };
+  # services.xserver.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  hardware.opengl = {
-  	enable = true;
-	driSupport = true;
-	extraPackages = with pkgs; [
-		vaapiIntel
-		vaapiVdpau
-		libvdpau-va-gl
-		mesa.drivers
-	];
-  };
-
-  fonts.fonts = with pkgs; [
-	noto-fonts-emoji
-	font-awesome
-	dejavu_fonts
-	source-code-pro
-  ];
-
-
-
   
 
   # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
+  # services.xserver.layout = "br";
+  # services.xserver.xkbOptions = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -97,35 +56,93 @@
   hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver = {
+        enable = true;
+        libinput.enable = true;
+        layout = "br";
+        windowManager.awesome = {
+              enable = true;
+              luaModules = with pkgs.luaPackages; [
+                      luarocks
+                      luadbi-mysql
+              ];
+        };
+        displayManager.startx.enable = true;
+        videoDrivers = [ "intel" ];
+        
+  };
+
+  hardware.opengl.package = (pkgs.mesa.override {
+        galliumDrivers = [ "i915" "swrast" ];
+        vulkanDrivers = [ "intel" "swrast" ];
+  }).drivers;
+
+  boot.kernelPackages = let
+  linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
+
+    buildLinux (args // rec {
+      version = "6.3.5-tkg-bmq";
+      modDirVersion = "6.3.5";
+
+      src = fetchurl {
+        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.5.tar.xz";
+        sha256 = "f5cd478c3d8b908ab606afd1e95a4f8f77e7186b4a82829251d6e6aaafff825e";
+      };
+      kernelPatches = [
+        { name = "prjc.patch"; patch = ./patches/prjc.patch; }
+        { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
+        { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
+        { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
+        { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
+      ];
+
+      extraConfig = ''
+        SCHED_ALT y
+        SCHED_BMQ y
+        HZ_500 y
+        MLX5_CORE n
+      '';
+
+      ignoreConfigErrors = true;
+
+      extraMeta.branch = "6.3";
+    } // (args.argsOverride or {}));
+      linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
+    in 
+      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
+
+
+  fonts.fonts = with pkgs; [
+        (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+        noto-fonts-emoji
+        font-awesome
+        dejavu_fonts
+        source-code-pro
+
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.duvas = {
      isNormalUser = true;
-     extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
-       btop
+
+       htop
        glxinfo
      ];
    };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+   environment.systemPackages = with pkgs; [
+     vim 
      wget
-     google-chrome
-     spotify
-     rxvt-unicode
      git
      feh
      dmenu
      pavucontrol
-     (retroarch.override {
-	cores = [
-	  libretro.mgba
-	];
-     })
+     google-chrome
+     rxvt-unicode
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -154,11 +171,11 @@
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
 
