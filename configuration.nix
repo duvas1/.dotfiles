@@ -64,7 +64,7 @@
               enable = true;
               luaModules = with pkgs.luaPackages; [
                       luarocks
-                      luadbi-mysql
+                      # luadbi-mysql
               ];
         };
         displayManager.startx.enable = true;
@@ -73,20 +73,22 @@
   };
 
   hardware.opengl.package = (pkgs.mesa.override {
-        galliumDrivers = [ "i915" "swrast" ];
-        vulkanDrivers = [ "intel" "swrast" ];
+       galliumDrivers = [ "i915" "swrast" "r600" ];
+       vulkanDrivers = [ "intel" "swrast" ];
+       eglPlatforms = [ "x11" ];
+       enableGalliumNine = true;
   }).drivers;
 
-  boot.kernelPackages = let
-  linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
-
+   boot.kernelPackages = let
+   linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
+  
     buildLinux (args // rec {
-      version = "6.3.5-tkg-bmq";
-      modDirVersion = "6.3.5";
-
+      version = "6.3.8-tkg-bmq";
+      modDirVersion = "6.3.8";
+  
       src = fetchurl {
-        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.5.tar.xz";
-        sha256 = "f5cd478c3d8b908ab606afd1e95a4f8f77e7186b4a82829251d6e6aaafff825e";
+        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.8.tar.xz";
+        sha256 = "4323d421250e2e444c35d36f4aa8ddb56591dedc25c68d359d19c4ef9dd20955";
       };
       kernelPatches = [
         { name = "prjc.patch"; patch = ./patches/prjc.patch; }
@@ -95,22 +97,28 @@
         { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
         { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
       ];
-
+  
       extraConfig = ''
         SCHED_ALT y
         SCHED_BMQ y
         HZ_500 y
         MLX5_CORE n
+        DRM_RADEON n
+        DRM_AMDGPU n
+        DRM_NOUVEAU n
+        DRM_i915 m
+        ZENIFY y
       '';
-
+  
       ignoreConfigErrors = true;
-
+  
       extraMeta.branch = "6.3";
     } // (args.argsOverride or {}));
       linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
     in 
       pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
-
+  
+  # boot.kernelPackages = pkgs.linuxPackages_lqx;
 
   fonts.fonts = with pkgs; [
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -126,7 +134,7 @@
      isNormalUser = true;
      extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
-
+       neofetch
        htop
        glxinfo
      ];
@@ -143,6 +151,9 @@
      pavucontrol
      google-chrome
      rxvt-unicode
+     streamlink-twitch-gui-bin
+     mpv
+     krabby
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
