@@ -72,12 +72,12 @@
         
   };
 
-  hardware.opengl.package = (pkgs.mesa.override {
+   hardware.opengl.package = (pkgs.mesa.override {
        galliumDrivers = [ "i915" "swrast" "r600" ];
        vulkanDrivers = [ "intel" "swrast" ];
        eglPlatforms = [ "x11" ];
        enableGalliumNine = true;
-  }).drivers;
+   }).drivers;
 
    boot.kernelPackages = let
    linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
@@ -97,6 +97,7 @@
         { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
         { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
       ];
+      configfile = [./kernel-config];
   
       extraConfig = ''
         SCHED_ALT y
@@ -145,6 +146,7 @@
    environment.systemPackages = with pkgs; [
      vim 
      wget
+     unzip
      git
      feh
      dmenu
@@ -154,6 +156,26 @@
      streamlink-twitch-gui-bin
      mpv
      krabby
+     ani-cli
+
+
+
+
+
+     
+     # Spotify with SpotX
+     (pkgs.spotify.overrideAttrs (oldAttrs: rec {
+       buildInputs = oldAttrs.buildInputs or [] ++ [ pkgs.unzip pkgs.perl pkgs.zip pkgs.util-linux];
+       spotx = pkgs.fetchurl {
+         url = "https://raw.githubusercontent.com/SpotX-CLI/SpotX-Linux/main/install.sh";
+         sha256 = "1i848jxd7vlqk7m4zpcvll025p99kw799ybjbmy8p0yqrrqp1ika";
+       };
+       
+       postInstall = ''
+         # SpotX install script
+         bash $spotx -P $out/share/spotify
+       '';
+     }))
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
