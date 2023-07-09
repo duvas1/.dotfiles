@@ -71,55 +71,63 @@
         videoDrivers = [ "intel" ];
         
   };
+  programs.java = {
+     enable = true;
+     package = pkgs.jdk11;
+  };
 
-   hardware.opengl.package = (pkgs.mesa.override {
-       galliumDrivers = [ "i915" "swrast" "r600" ];
-       vulkanDrivers = [ "intel" "swrast" ];
-       eglPlatforms = [ "x11" ];
-       enableGalliumNine = true;
-   }).drivers;
+   # NOT NEEDED!! THEY FINALLY FIXED IT!!!
 
-   boot.kernelPackages = let
-   linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
+   #hardware.opengl.package = (pkgs.mesa.override {
+   #    galliumDrivers = [ "i915" "swrast" "r600" ];
+   #    vulkanDrivers = [ "intel" "swrast" ];
+   #    eglPlatforms = [ "x11" ];
+   #    enableGalliumNine = true;
+   # }).drivers;
+
+   #Attempt of building linux-tkg-bmq, take so long to build.
+
+   #boot.kernelPackages = let
+   #linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
   
-    buildLinux (args // rec {
-      version = "6.3.8-tkg-bmq";
-      modDirVersion = "6.3.8";
+   # buildLinux (args // rec {
+   #   version = "6.3.8-tkg-bmq";
+   #   modDirVersion = "6.3.8";
   
-      src = fetchurl {
-        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.8.tar.xz";
-        sha256 = "4323d421250e2e444c35d36f4aa8ddb56591dedc25c68d359d19c4ef9dd20955";
-      };
-      kernelPatches = [
-        { name = "prjc.patch"; patch = ./patches/prjc.patch; }
-        { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
-        { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
-        { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
-        { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
-      ];
-      configfile = [./kernel-config];
+   #   src = fetchurl {
+   #     url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.8.tar.xz";
+   #     sha256 = "4323d421250e2e444c35d36f4aa8ddb56591dedc25c68d359d19c4ef9dd20955";
+   #   };
+   #   kernelPatches = [
+   #     { name = "prjc.patch"; patch = ./patches/prjc.patch; }
+   #     { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
+   #     { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
+   #     { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
+   #     { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
+   #   ];
+   #   configfile = [./kernel-config];
   
-      extraConfig = ''
-        SCHED_ALT y
-        SCHED_BMQ y
-        HZ_500 y
-        MLX5_CORE n
-        DRM_RADEON n
-        DRM_AMDGPU n
-        DRM_NOUVEAU n
-        DRM_i915 m
-        ZENIFY y
-      '';
+   #   extraConfig = ''
+   #     SCHED_ALT y
+   #     SCHED_BMQ y
+   #     HZ_500 y
+   #     MLX5_CORE n
+   #     DRM_RADEON n
+   #     DRM_AMDGPU n
+   #     DRM_NOUVEAU n
+   #     DRM_i915 m
+   #     ZENIFY y
+   #   '';
   
-      ignoreConfigErrors = true;
+   #   ignoreConfigErrors = true;
   
-      extraMeta.branch = "6.3";
-    } // (args.argsOverride or {}));
-      linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
-    in 
-      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
+   #   extraMeta.branch = "6.3";
+   # } // (args.argsOverride or {}));
+   #   linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
+   # in 
+   #   pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
   
-  # boot.kernelPackages = pkgs.linuxPackages_lqx;
+   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
   fonts.fonts = with pkgs; [
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -168,7 +176,7 @@
        buildInputs = oldAttrs.buildInputs or [] ++ [ pkgs.unzip pkgs.perl pkgs.zip pkgs.util-linux];
        spotx = pkgs.fetchurl {
          url = "https://raw.githubusercontent.com/SpotX-CLI/SpotX-Linux/main/install.sh";
-         sha256 = "1i848jxd7vlqk7m4zpcvll025p99kw799ybjbmy8p0yqrrqp1ika";
+         sha256 = "4265771659ff121cc0a939f5661733d4d0e9ae10a55281459844c0eb8e3e9540";
        };
        
        postInstall = ''
