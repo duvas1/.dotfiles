@@ -52,8 +52,15 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+  security.rtkit.enable = true; 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver = {
@@ -85,51 +92,60 @@
    #    enableGalliumNine = true;
    # }).drivers;
 
+   hardware.opengl = {
+     enable = true;
+     extraPackages = with pkgs; [
+       vaapiIntel
+       vaapiVdpau
+       libvdpau-va-gl
+     ];
+   };
+
    #Attempt of building linux-tkg-bmq, take so long to build.
 
-   #boot.kernelPackages = let
-   #linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
+   boot.kernelPackages = let
+   linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
   
-   # buildLinux (args // rec {
-   #   version = "6.3.8-tkg-bmq";
-   #   modDirVersion = "6.3.8";
+    buildLinux (args // rec {
+      version = "6.4.10-tkg-bmq";
+      modDirVersion = "6.4.10-tkg-bmq";
   
-   #   src = fetchurl {
-   #     url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.8.tar.xz";
-   #     sha256 = "4323d421250e2e444c35d36f4aa8ddb56591dedc25c68d359d19c4ef9dd20955";
-   #   };
-   #   kernelPatches = [
-   #     { name = "prjc.patch"; patch = ./patches/prjc.patch; }
-   #     { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
-   #     { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
-   #     { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
-   #     { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
-   #   ];
-   #   configfile = [./kernel-config];
+      src = fetchurl {
+        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.10.tar.xz";
+        sha256 = "980b3fb2a97788fd885cbd85ba4520980f76c7ae1d62bfc2e7477ee04df5f239";
+      };
+      kernelPatches = [
+        { name = "prjc.patch"; patch = ./patches/prjc.patch; }
+        { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
+        { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
+        { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
+        { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
+      ];
   
-   #   extraConfig = ''
-   #     SCHED_ALT y
-   #     SCHED_BMQ y
-   #     HZ_500 y
-   #     MLX5_CORE n
-   #     DRM_RADEON n
-   #     DRM_AMDGPU n
-   #     DRM_NOUVEAU n
-   #     DRM_i915 m
-   #     ZENIFY y
-   #   '';
+      extraConfig = ''
+        SCHED_ALT y
+        SCHED_BMQ y
+        HZ_500 y
+        MLX5_CORE n
+        DRM_RADEON n
+        DRM_AMDGPU n
+        DRM_NOUVEAU n
+        DRM_i915 m
+        ZENIFY y
+        LOCALVERSION -tkg-bmq
+      '';
   
-   #   ignoreConfigErrors = true;
+      ignoreConfigErrors = true;
   
-   #   extraMeta.branch = "6.3";
-   # } // (args.argsOverride or {}));
-   #   linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
-   # in 
-   #   pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
+      extraMeta.branch = "6.4";
+    } // (args.argsOverride or {}));
+      linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
+    in 
+      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
   
-   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+   # boot.kernelPackages = pkgs.linuxPackages_lqx;
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
         noto-fonts-emoji
         font-awesome
@@ -165,7 +181,7 @@
      mpv
      krabby
      ani-cli
-
+     alsa-utils
 
 
 
