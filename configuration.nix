@@ -103,47 +103,47 @@
 
    #Attempt of building linux-tkg-bmq, take so long to build.
 
-   boot.kernelPackages = let
-   linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
+   # boot.kernelPackages = let
+   # linux_tkg_bmq_pkg = { fetchurl, buildLinux, ... } @ args:
   
-    buildLinux (args // rec {
-      version = "6.4.10-tkg-bmq";
-      modDirVersion = "6.4.10-tkg-bmq";
+   #  buildLinux (args // rec {
+   #    version = "6.4.10-tkg-bmq";
+   #    modDirVersion = "6.4.10-tkg-bmq";
   
-      src = fetchurl {
-        url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.10.tar.xz";
-        sha256 = "980b3fb2a97788fd885cbd85ba4520980f76c7ae1d62bfc2e7477ee04df5f239";
-      };
-      kernelPatches = [
-        { name = "prjc.patch"; patch = ./patches/prjc.patch; }
-        { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
-        { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
-        { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
-        { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
-      ];
+   #    src = fetchurl {
+   #      url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.10.tar.xz";
+   #      sha256 = "980b3fb2a97788fd885cbd85ba4520980f76c7ae1d62bfc2e7477ee04df5f239";
+   #    };
+   #    kernelPatches = [
+   #      { name = "prjc.patch"; patch = ./patches/prjc.patch; }
+   #      { name = "glitched-base.patch"; patch = ./patches/glitched-base.patch; }
+   #      { name = "glitched-bmq.patch"; patch = ./patches/glitched-bmq.patch; }
+   #      { name = "clear-patches.patch"; patch = ./patches/clear-patches.patch; }
+   #      { name = "misc-additions.patch"; patch = ./patches/misc-additions.patch; }
+   #    ];
   
-      extraConfig = ''
-        SCHED_ALT y
-        SCHED_BMQ y
-        HZ_500 y
-        MLX5_CORE n
-        DRM_RADEON n
-        DRM_AMDGPU n
-        DRM_NOUVEAU n
-        DRM_i915 m
-        ZENIFY y
-        LOCALVERSION -tkg-bmq
-      '';
+   #    extraConfig = ''
+   #      SCHED_ALT y
+   #      SCHED_BMQ y
+   #      HZ_500 y
+   #      MLX5_CORE n
+   #      DRM_RADEON n
+   #      DRM_AMDGPU n
+   #      DRM_NOUVEAU n
+   #      DRM_i915 m
+   #      ZENIFY y
+   #      LOCALVERSION -tkg-bmq
+   #    '';
   
-      ignoreConfigErrors = true;
+   #    ignoreConfigErrors = true;
   
-      extraMeta.branch = "6.4";
-    } // (args.argsOverride or {}));
-      linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
-    in 
-      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
+   #    extraMeta.branch = "6.4";
+   #  } // (args.argsOverride or {}));
+   #    linux_tkg_bmq = pkgs.callPackage linux_tkg_bmq_pkg{};
+   #  in 
+   #    pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_tkg_bmq);
   
-   # boot.kernelPackages = pkgs.linuxPackages_lqx;
+   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
   fonts.packages = with pkgs; [
         (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
