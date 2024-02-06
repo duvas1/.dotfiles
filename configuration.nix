@@ -191,13 +191,13 @@
      (pkgs.spotify.overrideAttrs (oldAttrs: rec {
        buildInputs = oldAttrs.buildInputs or [] ++ [ pkgs.unzip pkgs.perl pkgs.zip pkgs.util-linux];
        spotx = pkgs.fetchurl {
-         url = "https://raw.githubusercontent.com/SpotX-CLI/SpotX-Linux/main/install.sh";
-         sha256 = "4265771659ff121cc0a939f5661733d4d0e9ae10a55281459844c0eb8e3e9540";
+         url = "https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/main/spotx.sh";
+         sha256 = "e0c6b2ecd2c6af3963ad98335e146d8270573f04361874412416b13d5feabcc9";
        };
        
        postInstall = ''
          # SpotX install script
-         bash $spotx -P $out/share/spotify
+         bash $spotx -h -P $out/share/spotify
        '';
      }))
    ];
