@@ -1,0 +1,15 @@
+#Works with any chromium-based browser!
+
+/usr/bin/google-chrome-stable \
+--profile-directory=Default \
+--app-id=egmafekfmcnknbdlbfbhafbllplmjlhn \
+--no-sandbox \
+--disable-gpu-vsync \
+--enable-gamepad-button-axis-events \
+--no-zygote \
+--disable-gpu-program-cache \
+--disable-gpu-watchdog \
+--use-cmd-decoder \
+--enable-gpu-rasterization \
+--enable-native-gpu-memory-buffers \
+--passthrough
