@@ -42,8 +42,12 @@
   # services.xserver.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  
 
+  nixpkgs.overlays = [
+    (self: super: {
+      awesome = super.awesome.override { lua = super.luajit; };
+    })
+  ];
   # Configure keymap in X11
   # services.xserver.layout = "br";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
@@ -96,8 +100,6 @@
      enable = true;
      extraPackages = with pkgs; [
        vaapiIntel
-       vaapiVdpau
-       libvdpau-va-gl
      ];
    };
 
@@ -219,7 +221,7 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
