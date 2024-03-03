@@ -31,12 +31,12 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-   console = {
+  i18n.defaultLocale = "pt_BR.UTF-8";
+  console = {
      font = "Lat2-Terminus16";
      # keyMap = "us";
      useXkbConfig = true; # use xkbOptions in tty.
-   };
+  };
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -70,7 +70,7 @@
   services.xserver = {
         enable = true;
         libinput.enable = true;
-        layout = "br";
+        xkb.layout = "br";
         windowManager.awesome = {
               enable = true;
               luaModules = with pkgs.luaPackages; [
@@ -159,7 +159,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.duvas = {
      isNormalUser = true;
-     extraGroups = [ "wheel" "audio" "video" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "wheel" "audio" "video" "pipewire" ]; # Enable ‘sudo’ for the user.
      packages = with pkgs; [
        fastfetch
        btop
