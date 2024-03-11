@@ -194,7 +194,7 @@
        buildInputs = oldAttrs.buildInputs or [] ++ [ pkgs.unzip pkgs.perl pkgs.zip pkgs.util-linux];
        spotx = pkgs.fetchurl {
          url = "https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/main/spotx.sh";
-         sha256 = "7a0ad83ae5d1d1127869b4ebad4acdfeb238976813e6f4d22ab5e8807cb2d0e5";
+         sha256 = "485819b87fee546547511ba708ec52e665e48e7cac98059bd41f032cfaad871a";
        };
        
        postInstall = ''
