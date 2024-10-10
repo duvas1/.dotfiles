@@ -20,3 +20,5 @@ Just a wallpaper uploaded so I can find easily. I may upload more wallpapers, if
 # Urxvt Terminal
 Urxvt configuration file (Choose either .Xresources or .Xdefaults, or even both). Catppuccin Themed. JetBrainsMono Nerd Font.
 
+# Nvim Config
+Requires stylua, ripgrep, fd, and a lot more idk lol
