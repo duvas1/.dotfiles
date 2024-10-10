@@ -36,10 +36,10 @@ URxvt.color7: #B8C0E0
 URxvt.color15: #A5ADCB
 
 !! URxvt Appearance
-URxvt.font: xft:JetBrainsMono Nerd Font Mono:style=Regular:size=12:antialias=true:autohint=true
-Rxvt.boldFont: xft:JetBrainsMono Nerd Font Mono:style=Bold:size=12:antialias=true:autohint=true
-URxvt.italicFont: xft:JetBrainsMono Nerd Font Mono:style=Italic:size=12:antialias=true:autohint=true
-URxvt.boldItalicfont: xft:JetBrainsMono Nerd Font Mono:style=Bold Italic:size=12:antialias=true:autohint=true
+URxvt.font: xft:JetBrainsMonoNL Nerd Font Mono:style=Regular:size=12:antialias=true:autohint=true, xft:Font Awesome 6 Free:size=12:antialias=true:autohint=true
+Rxvt.boldFont: xft:JetBrainsMonoNL Nerd Font Mono:style=Bold:size=12:antialias=true:autohint=true
+URxvt.italicFont: xft:JetBrainsMonoNL Nerd Font Mono:style=Italic:size=12:antialias=true:autohint=true
+URxvt.boldItalicfont: xft:JetBrainsMonoNL Nerd Font Mono:style=Bold Italic:size=12:antialias=true:autohint=true
 URxvt.letterSpace: 0
 URxvt.lineSpace: 0
 URxvt.internalBorder: 24
